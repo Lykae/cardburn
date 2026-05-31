@@ -1,3 +1,5 @@
+import { v4 } from "uuid";
+
 export class Card {
   id: string;
   suit: string;
@@ -5,7 +7,7 @@ export class Card {
   value: number;
 
   constructor(suit: string, src: string, value: number) {
-    this.id = crypto.randomUUID()
+    this.id = v4();
     this.suit = suit;
     this.src = src;
     this.value = value;

@@ -51,22 +51,24 @@ export default function GameBoard() {
 
       {/* ================= GAME UI ================= */}
       {inGame && (
-        <>
+        <div className="flex-1 m-2 flex flex-col justify-between">
           {/* TOP BAR */}
-          <div className="h-12 absolute top-2 left-2 flex gap-2 font-semibold z-40">
-            <button
-              onClick={() => setOpenPile("discard")}
-              className="bg-teal-900/60 rounded-lg border border-teal-500 px-2 py-1"
-            >
-              Discard: {game.discard.length}
-            </button>
+          <div className="h-12 md:h-15 md:text-xl flex justify-between gap-2 font-semibold z-40">
+            <div className="flex gap-2 font-semibold z-40">
+              <button
+                onClick={() => setOpenPile("discard")}
+                className="bg-teal-900/60 rounded-lg border border-teal-500 px-2 py-1"
+              >
+                Discard: {game.discard.length}
+              </button>
 
-            <button
-              onClick={() => setOpenPile("exile")}
-              className="bg-teal-900/60 rounded-lg border border-teal-500 px-2 py-1"
-            >
-              Exile: {game.exile.length}
-            </button>
+              <button
+                onClick={() => setOpenPile("exile")}
+                className="bg-teal-900/60 rounded-lg border border-teal-500 px-2 py-1"
+              >
+                Exile: {game.exile.length}
+              </button>
+            </div>
 
             {/* CURRENT PLAYER INDICATOR */}
             <button className="px-2 py-1 bg-purple-900/60 border border-purple-500 rounded-lg">
@@ -74,29 +76,16 @@ export default function GameBoard() {
             </button>
           </div>
 
-          {/* JOKERS */}
-          <div className="flex gap-2 justify-end p-2">
-            {game.jokers.map((active: boolean, i: number) => (
-              <div
-                key={i}
-                onClick={() => game.useJoker(i)}
-                className={`w-12 h-12 flex items-center justify-center rounded-lg border cursor-pointer ${
-                  active
-                    ? "bg-teal-900/60 border-teal-500"
-                    : "bg-gray-800 opacity-40"
-                }`}
-              >
-                <img className="p-1" src={joker} />
-              </div>
-            ))}
-          </div>
-
           {/* ENEMY */}
           <div className="text-center px-3 pb-2">
             {game.currentEnemy && (
               <div className="mt-2 inline-block bg-red-900/60 border border-red-500 rounded-xl p-3 shadow-lg">
-                <p className="text-lg md:text-2xl">HP: {game.currentEnemy.health}</p>
-                <p className="text-sm md:text-lg">STR: {game.currentEnemy.strength}</p>
+                <p className="text-lg md:text-2xl">
+                  HP: {game.currentEnemy.health}
+                </p>
+                <p className="text-sm md:text-lg">
+                  STR: {game.currentEnemy.strength}
+                </p>
                 <img
                   src={game.currentEnemy.src}
                   className="w-[32vh] mx-auto mt-1 rounded-lg border"
@@ -106,7 +95,7 @@ export default function GameBoard() {
           </div>
 
           {/* ACTION BUTTON */}
-          <div className="px-3 flex justify-center">
+          <div className="px-3 flex justify-center gap-3">
             <button
               className="w-full md:text-2xl lg:w-40 md:h-20 bg-teal-900/60 rounded-lg border border-teal-500 py-3 font-semibold shadow-lg"
               onClick={
@@ -119,6 +108,23 @@ export default function GameBoard() {
                   ? "Yield"
                   : "Attack"}
             </button>
+
+            {/* JOKERS */}
+            <div className="flex gap-2 justify-end">
+              {game.jokers.map((active: boolean, i: number) => (
+                <div
+                  key={i}
+                  onClick={() => game.useJoker(i)}
+                  className={`w-12 h-12 p-2 md:w-20 md:h-20 flex items-center justify-center rounded-lg border cursor-pointer ${
+                    active
+                      ? "bg-purple-900/60 border-purple-500"
+                      : "bg-gray-800 opacity-40"
+                  }`}
+                >
+                  <img className="p-1" src={joker} />
+                </div>
+              ))}
+            </div>
           </div>
 
           {/* HAND */}
@@ -145,10 +151,8 @@ export default function GameBoard() {
               ))}
             </div>
           </div>
-        </>
+        </div>
       )}
-
-      
 
       {(game.gameStatus === "won" || game.gameStatus === "lost") && (
         <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50">
