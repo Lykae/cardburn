@@ -18,7 +18,7 @@ export default function GameBoard() {
   }
 
   return (
-    <div className="h-screen w-screen overflow-hidden bg-gray-950 text-white flex flex-col justify-between">
+    <div className="h-dvh w-screen overflow-hidden bg-gray-950 text-white flex flex-col justify-between">
       {/* START SCREEN */}
       {!inGame && (
         <div className="h-full flex flex-col justify-center items-center gap-6">
