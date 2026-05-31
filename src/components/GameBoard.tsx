@@ -19,12 +19,12 @@ export default function GameBoard() {
 
   return (
     <div className="h-screen w-screen overflow-hidden bg-gray-950 text-white flex flex-col justify-between">
-      {/* ================= START SCREEN ================= */}
+      {/* START SCREEN */}
       {!inGame && (
         <div className="h-full flex flex-col justify-center items-center gap-6">
           <h1 className="text-2xl font-bold">Select Players</h1>
 
-          <div className="flex gap-3">
+          <div className="grid grid-cols-2 gap-3">
             {[1, 2, 3, 4].map((n) => (
               <button
                 key={n}
