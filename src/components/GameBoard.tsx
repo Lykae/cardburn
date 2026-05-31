@@ -95,8 +95,8 @@ export default function GameBoard() {
           <div className="text-center px-3 pb-2">
             {game.currentEnemy && (
               <div className="mt-2 inline-block bg-red-900/60 border border-red-500 rounded-xl p-3 shadow-lg">
-                <p className="text-lg">HP: {game.currentEnemy.health}</p>
-                <p className="text-sm">STR: {game.currentEnemy.strength}</p>
+                <p className="text-lg md:text-2xl">HP: {game.currentEnemy.health}</p>
+                <p className="text-sm md:text-lg">STR: {game.currentEnemy.strength}</p>
                 <img
                   src={game.currentEnemy.src}
                   className="w-[32vh] mx-auto mt-1 rounded-lg border"
@@ -108,7 +108,7 @@ export default function GameBoard() {
           {/* ACTION BUTTON */}
           <div className="px-3 flex justify-center">
             <button
-              className="w-full lg:w-40 md:h-20 bg-teal-900/60 rounded-lg border border-teal-500 py-3 font-semibold shadow-lg"
+              className="w-full md:text-2xl lg:w-40 md:h-20 bg-teal-900/60 rounded-lg border border-teal-500 py-3 font-semibold shadow-lg"
               onClick={
                 game.postAttackPhase ? game.confirmDiscardPayment : game.attack
               }
