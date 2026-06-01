@@ -300,6 +300,10 @@ export default function GameBoard() {
 
               <p>Joker discards your hand and draws to max hand size.</p>
 
+              <p>If you leave an enemy at exactly zero health, it will be added on top of the deck.
+                 Otherwise it will go to discard.
+              </p>
+
               <p>
                 Be careful: if you cannot pay discard costs or your hand is
                 empty, you lose the game.
