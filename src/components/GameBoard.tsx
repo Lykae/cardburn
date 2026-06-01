@@ -160,9 +160,9 @@ export default function GameBoard() {
                     } ${
                       isSelected ? "-translate-y-4 ring-2 ring-yellow-400" : ""
                     } ${
-                      isPlayable && !isSelected
+                      isPlayable && !isSelected && !game.postAttackPhase
                         ? "ring-2 ring-green-500/60 hover:ring-green-400"
-                        : "ring-2"
+                        : "ring-1 ring-black"
                     }`}
                   />
                 );
