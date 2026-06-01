@@ -60,7 +60,7 @@ export default function GameBoard() {
                 onClick={() => setOpenPile("discard")}
                 className="bg-teal-900/60 rounded-lg border border-teal-500 px-2 py-1"
               >
-                Discard: {game.discard.length}
+                Grave: {game.discard.length}
               </button>
 
               <button
@@ -69,19 +69,24 @@ export default function GameBoard() {
               >
                 Exile: {game.exile.length}
               </button>
+
+              <button className="bg-teal-900/60 rounded-lg border border-teal-500 px-2 py-1">
+                Deck: {game.getDeckCount()}
+              </button>
             </div>
 
             <div className="flex gap-2 font-semibold z-40">
               <button
                 onClick={() => setShowHelp(true)}
-                className="px-2 py-1 w-12 md:w-15 bg-green-900/60 border border-green-500 rounded-lg text-3xl"
+                className="px-2 py-1 w-12 md:w-15 h-12 md:h-15 bg-purple-900/60 border border-purple-500 rounded-lg text-3xl"
               >
                 ?
               </button>
-
+              {/*}
               <button className="px-2 py-1 bg-purple-900/60 border border-purple-500 rounded-lg">
                 P{game.currentPlayerIndex + 1} Turn
               </button>
+              */}
             </div>
           </div>
 
@@ -89,6 +94,10 @@ export default function GameBoard() {
           <div className="text-center px-3 pb-2">
             {game.currentEnemy && (
               <div className="mt-2 inline-block bg-red-900/60 border border-red-500 rounded-xl p-3 shadow-lg">
+
+                <button className="absolute px-2 py-1 ml-15 md:ml-25 bg-red-900/60 border border-red-500 rounded-lg">
+                  {game.getEnemyCount()}
+                </button>
                 <p className="text-lg md:text-2xl">
                   HP: {game.currentEnemy.health}
                 </p>
@@ -106,16 +115,22 @@ export default function GameBoard() {
           {/* ACTION BUTTON */}
           <div className="px-3 flex justify-center gap-3">
             <button
-              className="w-full md:text-2xl lg:w-40 md:h-20 bg-teal-900/60 rounded-lg border border-teal-500 py-3 font-semibold shadow-lg"
+              className="w-full md:text-2xl lg:w-[40vw] md:h-20 bg-teal-900/60 rounded-lg border border-teal-500 py-3 font-semibold shadow-lg"
               onClick={
                 game.postAttackPhase ? game.confirmDiscardPayment : game.attack
               }
             >
-              {game.postAttackPhase
-                ? `Discard ${game.getDiscardSelectionValue()}/${game.discardRequirement}`
-                : game.attackSelection.length === 0
-                  ? "Yield"
-                  : "Attack"}
+              <div className="flex flex-row gap-1 justify-center">
+                <div>P{game.currentPlayerIndex + 1}</div>
+
+                <div>
+                  {game.postAttackPhase
+                    ? `Discard ${game.getDiscardSelectionValue()}/${game.discardRequirement}`
+                    : game.attackSelection.length === 0
+                      ? "Yield"
+                      : "Attack"}
+                </div>
+              </div>
             </button>
 
             {/* JOKERS */}

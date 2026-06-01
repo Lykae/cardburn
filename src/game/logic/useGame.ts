@@ -477,6 +477,15 @@ export function useGame() {
     });
   };
 
+  const getDeckCount = () => {
+    return deckRef.current.gameCards.length;
+  };
+
+  const getEnemyCount = () => {
+    const d = deckRef.current;
+    return d.enemyJacks.length + d.enemyQueens.length + d.enemyQueens.length;
+  };
+
   return {
     discard,
     exile,
@@ -509,6 +518,8 @@ export function useGame() {
     currentPlayerIndex,
     currentPlayer,
     endTurn,
-    canPlayCard
+    canPlayCard,
+    getDeckCount,
+    getEnemyCount
   };
 }
