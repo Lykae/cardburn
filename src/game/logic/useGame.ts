@@ -481,6 +481,10 @@ export function useGame() {
     return deckRef.current.gameCards.length;
   };
 
+  const getPlayerCount = () => {
+    return players.length;
+  };
+
   const getEnemyCount = () => {
     const d = deckRef.current;
     return d.enemyJacks.length + d.enemyQueens.length + d.enemyQueens.length;
@@ -520,6 +524,7 @@ export function useGame() {
     endTurn,
     canPlayCard,
     getDeckCount,
-    getEnemyCount
+    getEnemyCount,
+    getPlayerCount
   };
 }

@@ -94,7 +94,6 @@ export default function GameBoard() {
           <div className="text-center px-3 pb-2">
             {game.currentEnemy && (
               <div className="mt-2 inline-block bg-red-900/60 border border-red-500 rounded-xl p-3 shadow-lg">
-
                 <button className="absolute px-2 py-1 ml-15 md:ml-25 bg-red-900/60 border border-red-500 rounded-lg">
                   {game.getEnemyCount()}
                 </button>
@@ -121,7 +120,9 @@ export default function GameBoard() {
               }
             >
               <div className="flex flex-row gap-1 justify-center">
-                <div>P{game.currentPlayerIndex + 1}</div>
+                {game.getPlayerCount() !== 1 && (
+                  <div>P{game.currentPlayerIndex + 1}</div>
+                )}
 
                 <div>
                   {game.postAttackPhase
