@@ -235,11 +235,6 @@ export function useGame() {
     const nextPlayerIndex = (currentPlayerIndex + 1) % players.length;
 
     setCurrentPlayerIndex(nextPlayerIndex);
-
-    if (players[nextPlayerIndex].hand.length === 0) {
-      setGameStatus("lost");
-      return;
-    }
   };
 
   const toggleDiscardSelect = (card: Card) => {
@@ -291,6 +286,15 @@ export function useGame() {
     setAttackSelection([]);
     endTurn();
   };
+
+  const checkCanDiscard = () => {
+    const remainingValue = playerHand.reduce(
+      (sum, card) => sum + card.value,
+      0,
+    );
+    
+    return remainingValue > currentEnemy.strength;
+  }
 
   const attack = () => {
     if (!currentEnemy) return;
@@ -397,15 +401,6 @@ export function useGame() {
 
     setDiscard((old) => [...old, ...cardsToDiscard]);
 
-    const remainingHand = playerHand.filter(
-      (c) => !attackSelection.includes(c.id),
-    );
-
-    const remainingValue = remainingHand.reduce(
-      (sum, card) => sum + card.value,
-      0,
-    );
-
     setAttackSelection([]);
 
     if (updated.health <= 0) {
@@ -431,9 +426,6 @@ export function useGame() {
 
       endTurn();
       return;
-    } else if (remainingValue <= updated.strength) {
-      setGameStatus("lost");
-      return;
     }
 
     if (updated.strength <= 0) {
@@ -446,6 +438,8 @@ export function useGame() {
     setDiscardRequirement(updated.strength);
     setPostAttackPhase(true);
     setDiscardSelection([]);
+
+    setTimeout(checkCanDiscard, 0);
   };
 
   const useJoker = (i: number) => {
