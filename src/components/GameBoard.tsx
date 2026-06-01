@@ -8,6 +8,7 @@ export default function GameBoard() {
 
   const [openPile, setOpenPile] = useState<"discard" | "exile" | null>(null);
   const [selectedPlayers, setSelectedPlayers] = useState<number>(2);
+  const [showHelp, setShowHelp] = useState(false);
 
   const inGame = !!game.currentEnemy;
 
@@ -31,7 +32,7 @@ export default function GameBoard() {
                 onClick={() => setSelectedPlayers(n)}
                 className={`px-4 py-2 rounded-xl border ${
                   selectedPlayers === n
-                    ? "bg-teal-600 border-teal-300"
+                    ? "bg-teal-900/60 border-teal-500"
                     : "bg-gray-800 border-gray-600"
                 }`}
               >
@@ -41,7 +42,7 @@ export default function GameBoard() {
           </div>
 
           <button
-            className="bg-green-600 px-6 py-3 rounded-xl font-semibold shadow"
+            className="bg-green-900/60 border-green-500 border px-6 py-3 rounded-xl font-semibold shadow"
             onClick={startGame}
           >
             Start Game
@@ -70,10 +71,18 @@ export default function GameBoard() {
               </button>
             </div>
 
-            {/* CURRENT PLAYER INDICATOR */}
-            <button className="px-2 py-1 bg-purple-900/60 border border-purple-500 rounded-lg">
-              P{game.currentPlayerIndex + 1} Turn
-            </button>
+            <div className="flex gap-2 font-semibold z-40">
+              <button
+                onClick={() => setShowHelp(true)}
+                className="px-2 py-1 w-12 md:w-15 bg-green-900/60 border border-green-500 rounded-lg text-3xl"
+              >
+                ?
+              </button>
+
+              <button className="px-2 py-1 bg-purple-900/60 border border-purple-500 rounded-lg">
+                P{game.currentPlayerIndex + 1} Turn
+              </button>
+            </div>
           </div>
 
           {/* ENEMY */}
@@ -168,7 +177,7 @@ export default function GameBoard() {
             </p>
 
             <button
-              className="w-full bg-green-600 hover:bg-green-500 py-3 rounded-xl font-semibold"
+              className="w-full bg-green-900/60 border-green-500 border py-3 rounded-xl font-semibold"
               onClick={game.returnToMenu}
             >
               Back to Menu
@@ -213,6 +222,65 @@ export default function GameBoard() {
             <button
               className="mt-4 w-full bg-gray-700 py-2 rounded"
               onClick={() => setOpenPile(null)}
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      )}
+      {showHelp && (
+        <div
+          className="fixed inset-0 bg-black/70 flex items-center justify-center z-50"
+          onClick={() => setShowHelp(false)}
+        >
+          <div
+            className="bg-gray-900 border border-gray-700 rounded-2xl p-6 w-[90vw] max-w-md max-h-[80vh] overflow-y-auto"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <h2 className="text-xl font-bold mb-4">How to Play</h2>
+
+            <div className="text-sm text-gray-300 space-y-3 leading-relaxed">
+              <p>
+                <strong>Goal:</strong> Defeat all enemies by reducing their HP
+                to 0.
+              </p>
+
+              <p>
+                On your turn, select cards from your hand to perform an attack equal to their value. 
+                Every card also has an ability, which will be cast after attacking, unless it's the same suit as the enemy. 
+              </p>
+
+              <p>
+                Abilities get stronger as the value of the card played increases. You can also combo cards with the same value 
+                up to a combined value of 10 - their abilities will be combined. The same applies to the ace, 
+                which you can use combined with another card to trigger both abilities.
+              </p>
+
+              <p>
+                <strong>Clubs: </strong> double damage. <br/>
+                <strong>Spades: </strong> reduce enemy strength. <br/>
+                <strong>Diamonds: </strong> draw cards. <br/>
+                <strong>Hearts: </strong> recover cards. <br/>
+                <strong>Flames: </strong> combine with card and exile both. <br/>
+              </p>
+
+              <p>
+                After attacking, discard cards with a combined value of the enemies 
+                strength or more.
+              </p>
+
+              <p>
+                Joker discards your hand and draws to max hand size.
+              </p>
+
+              <p>
+                Be careful: if you cannot pay discard costs or your hand is empty, you lose the game.
+              </p>
+            </div>
+
+            <button
+              className="mt-5 w-full bg-gray-700 py-2 rounded"
+              onClick={() => setShowHelp(false)}
             >
               Close
             </button>
