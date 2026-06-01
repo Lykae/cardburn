@@ -188,6 +188,9 @@ export function useGame() {
       if (active.length >= 2) return false;
       if (card.value === 1) return false;
       return true;
+    } else if(card.value === 1) {
+      if (active.length > 1) return false;
+      return true;
     }
 
     if (active.length === 0) return true;
@@ -479,11 +482,6 @@ export function useGame() {
     return players.length;
   };
 
-  const getEnemyCount = () => {
-    const d = deckRef.current;
-    return d.enemyJacks.length + d.enemyQueens.length + d.enemyQueens.length;
-  };
-
   return {
     discard,
     exile,
@@ -518,7 +516,6 @@ export function useGame() {
     endTurn,
     canPlayCard,
     getDeckCount,
-    getEnemyCount,
     getPlayerCount
   };
 }

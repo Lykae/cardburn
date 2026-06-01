@@ -94,8 +94,8 @@ export default function GameBoard() {
           <div className="text-center px-3 pb-2">
             {game.currentEnemy && (
               <div className="mt-2 inline-block bg-red-900/60 border border-red-500 rounded-xl p-3 shadow-lg">
-                <button className="absolute px-2 py-1 ml-15 md:ml-25 bg-red-900/60 border border-red-500 rounded-lg">
-                  {game.getEnemyCount()}
+                <button className="absolute px-2 py-1 ml-15 md:ml-30 md:text-2xl lg:ml-25 bg-red-900/60 border border-red-500 rounded-lg">
+                  {game.enemyQueue.length}
                 </button>
                 <p className="text-lg md:text-2xl">
                   HP: {game.currentEnemy.health}
