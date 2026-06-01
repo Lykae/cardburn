@@ -1,73 +1,22 @@
-# React + TypeScript + Vite
+# Cardburn
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Cardgame with the assets from [my cards repo](https://github.com/Lykae/cards)
 
-Currently, two official plugins are available:
+Project uses React, Vite, Tailwind
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+Play [here](https://lykae.github.io/cardburn/)
 
-## React Compiler
+# What it looks like
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+<img width="1920" height="1080" alt="cardburn" src="https://github.com/user-attachments/assets/8f932da1-e3b0-4c00-a13b-d313c6b1e3a8" />
 
-## Expanding the ESLint configuration
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+# Credits
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+<a href="https://www.flaticon.com/free-icons/jack-of-spades" title="jack of spades icons">Jack of spades icons created by ArtBit - Flaticon</a>
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+<a href="https://www.flaticon.com/free-icons/queen" title="queen icons">Queen icons created by Smashicons - Flaticon</a>
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+<a href="https://www.flaticon.com/free-icons/playing-card" title="playing card icons">Playing card icons created by ArtBit - Flaticon</a>
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+<a href="https://www.flaticon.com/free-icons/joker" title="joker icons">Joker icons created by Georgiana_Lavinia - Flaticon</a>
