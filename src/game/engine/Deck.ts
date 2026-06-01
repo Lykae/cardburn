@@ -16,7 +16,7 @@ export class Deck {
   };
 
   getCardSrc(suitIndex: number, value: number) {
-    return `/cards/${suitIndex}_${value}.png`;
+    return `/cardburn/cards/${suitIndex}_${value}.png`;
   }
 
   generateDecks() {
