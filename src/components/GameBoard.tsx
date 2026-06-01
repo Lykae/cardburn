@@ -1,13 +1,13 @@
 import { useGame } from "../game/logic/useGame";
 import joker from "../assets/joker.png";
 import { useState } from "react";
+import type { Card } from "../game/engine/Card";
 
 export default function GameBoard() {
   const game = useGame();
 
   const [openPile, setOpenPile] = useState<"discard" | "exile" | null>(null);
   const [selectedPlayers, setSelectedPlayers] = useState<number>(2);
-  const [showPassScreen, setShowPassScreen] = useState(false);
 
   const inGame = !!game.currentEnemy;
 
@@ -177,14 +177,14 @@ export default function GameBoard() {
         </div>
       )}
 
-      {/* PASS DEVICE OVERLAY */}
+      {/* PASS DEVICE OVERLAY
       {showPassScreen && (
         <div className="fixed inset-0 bg-black flex items-center justify-center z-50">
           <h1 className="text-3xl font-bold text-center">
             Pass to Player {game.currentPlayerIndex + 1}
           </h1>
         </div>
-      )}
+      )} */}
 
       {/* PILES MODAL */}
       {openPile && (
@@ -200,7 +200,7 @@ export default function GameBoard() {
 
             <div className="grid grid-cols-3 gap-2">
               {(openPile === "discard" ? game.discard : game.exile).map(
-                (card: any) => (
+                (card: Card) => (
                   <img
                     key={card.id}
                     src={card.src}

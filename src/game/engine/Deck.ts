@@ -15,18 +15,12 @@ export class Deck {
     king: { health: 40, str: 20 },
   };
 
-  // -----------------------------
-  // IMAGE PATH GENERATOR
-  // -----------------------------
   getCardSrc(suitIndex: number, value: number) {
     return `/cards/${suitIndex}_${value}.png`;
   }
 
   generateDecks() {
     this.suits.forEach((suit, suitIndex) => {
-      // -----------------------------
-      // NORMAL CARDS (1–8)
-      // -----------------------------
       for (let v = 2; v <= 10; v++) {
         this.gameCards.push(
           new Card(
@@ -37,9 +31,6 @@ export class Deck {
         );
       }
 
-      // -----------------------------
-      // ACE (12)
-      // -----------------------------
       this.gameCards.push(
         new Card(
           suit,
@@ -48,37 +39,6 @@ export class Deck {
         )
       );
 
-      // -----------------------------
-      // MONARCHS (9–11 are special)
-      // -----------------------------
-      //this.gameCards.push(
-      //  new Card(
-      //    suit,
-      //    this.getCardSrc(suitIndex, 9),
-      //    10
-      //  )
-      //);
-//
-      //this.gameCards.push(
-      //  new Card(
-      //    suit,
-      //    this.getCardSrc(suitIndex, 10),
-      //    15
-      //  )
-      //);
-//
-      //this.gameCards.push(
-      //  new Card(
-      //    suit,
-      //    this.getCardSrc(suitIndex, 11),
-      //    20
-      //  )
-      //);
-
-      // -----------------------------
-      // ENEMIES (J/Q/K)
-      // stored as 11/12/13 style images depending on your set
-      // -----------------------------
       this.enemyJacks.push(
         new Enemy(
           suit,
@@ -111,7 +71,7 @@ export class Deck {
     });
   }
 
-  shuffle(deck: any[]) {
+  shuffle(deck: Card[]) {
     for (let i = deck.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
       [deck[i], deck[j]] = [deck[j], deck[i]];
