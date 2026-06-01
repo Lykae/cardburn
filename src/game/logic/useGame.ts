@@ -144,7 +144,6 @@ export function useGame() {
   };
 
   const drawCards = (n: number) => {
-    console.log("DRAW CARDS INIT");
     const d = deckRef.current;
 
     setPlayersSafe((prev) => {
@@ -169,11 +168,6 @@ export function useGame() {
           const card = d.gameCards.shift();
           if (!card) break;
 
-          console.log("----");
-          console.log("playerIterator", playerIterator);
-          console.log("card", card);
-          console.log("----");
-
           player.hand.push(card);
           n--;
         }
@@ -195,14 +189,6 @@ export function useGame() {
 
         playerIterator = (playerIterator + 1) % next.length;
       }
-
-      console.log(
-        "FINAL HANDS",
-        next.map((p, i) => ({
-          player: i,
-          cards: p.hand.map((c) => c.id),
-        })),
-      );
 
       return next;
     });

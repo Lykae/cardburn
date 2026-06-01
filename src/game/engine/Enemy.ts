@@ -6,7 +6,7 @@ export class Enemy extends Card {
   enemyLabel: string;
 
   constructor(suit: string, src: string, hp: number, str: number, label: string) {
-    super(suit, src, 0);
+    super(suit, src, str);
     this.health = hp;
     this.strength = str;
     this.enemyLabel = label;
