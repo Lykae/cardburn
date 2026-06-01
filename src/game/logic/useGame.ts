@@ -509,5 +509,6 @@ export function useGame() {
     currentPlayerIndex,
     currentPlayer,
     endTurn,
+    canPlayCard
   };
 }

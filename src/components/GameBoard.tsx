@@ -139,25 +139,34 @@ export default function GameBoard() {
           {/* HAND */}
           <div className="px-2 pb-2 flex justify-center">
             <div className="flex overflow-x-auto no-scrollbar pt-5 py-2 px-4">
-              {currentPlayer.hand.map((card, index) => (
-                <img
-                  key={card.id}
-                  src={card.src}
-                  onClick={() =>
-                    game.postAttackPhase
-                      ? game.toggleDiscardSelect(card)
-                      : game.toggleAttackSelect(card)
-                  }
-                  className={`w-22 md:w-32 lg:w-40 aspect-2.5/3.5 object-cover rounded-lg border shadow-md shrink-0 hover:-translate-y-4 ${
-                    index > 0 ? "-ml-8" : ""
-                  } ${
-                    game.attackSelection.includes(card.id) ||
-                    game.discardSelection.includes(card.id)
-                      ? "-translate-y-4 ring-2 ring-yellow-400"
-                      : ""
-                  }`}
-                />
-              ))}
+              {currentPlayer.hand.map((card, index) => {
+                const isSelected =
+                  game.attackSelection.includes(card.id) ||
+                  game.discardSelection.includes(card.id);
+
+                const isPlayable = game.canPlayCard(card);
+
+                return (
+                  <img
+                    key={card.id}
+                    src={card.src}
+                    onClick={() =>
+                      game.postAttackPhase
+                        ? game.toggleDiscardSelect(card)
+                        : game.toggleAttackSelect(card)
+                    }
+                    className={`w-22 md:w-32 lg:w-40 aspect-2.5/3.5 object-cover rounded-lg border shadow-md shrink-0 hover:-translate-y-4 ${
+                      index > 0 ? "-ml-8" : ""
+                    } ${
+                      isSelected ? "-translate-y-4 ring-2 ring-yellow-400" : ""
+                    } ${
+                      isPlayable && !isSelected
+                        ? "ring-2 ring-green-500/60 hover:ring-green-400"
+                        : "ring-2"
+                    }`}
+                  />
+                );
+              })}
             </div>
           </div>
         </div>
@@ -246,35 +255,38 @@ export default function GameBoard() {
               </p>
 
               <p>
-                On your turn, select cards from your hand to perform an attack equal to their value. 
-                Every card also has an ability, which will be cast after attacking, unless it's the same suit as the enemy. 
+                On your turn, select cards from your hand to perform an attack
+                equal to their value. Every card also has an ability, which will
+                be cast after attacking, unless it's the same suit as the enemy.
               </p>
 
               <p>
-                Abilities get stronger as the value of the card played increases. You can also combo cards with the same value 
-                up to a combined value of 10 - their abilities will be combined. The same applies to the ace, 
-                which you can use combined with another card to trigger both abilities.
+                Abilities get stronger as the value of the card played
+                increases. You can also combo cards with the same value up to a
+                combined value of 10 - their abilities will be combined. The
+                same applies to the ace, which you can use combined with another
+                card to trigger both abilities.
               </p>
 
               <p>
-                <strong>Clubs: </strong> double damage. <br/>
-                <strong>Spades: </strong> reduce enemy strength. <br/>
-                <strong>Diamonds: </strong> draw cards. <br/>
-                <strong>Hearts: </strong> recover cards. <br/>
-                <strong>Flames: </strong> combine with card and exile both. <br/>
+                <strong>Clubs: </strong> double damage. <br />
+                <strong>Spades: </strong> reduce enemy strength. <br />
+                <strong>Diamonds: </strong> draw cards. <br />
+                <strong>Hearts: </strong> recover cards. <br />
+                <strong>Flames: </strong> combine with card and exile both.{" "}
+                <br />
               </p>
 
               <p>
-                After attacking, discard cards with a combined value of the enemies 
-                strength or more.
+                After attacking, discard cards with a combined value of the
+                enemies strength or more.
               </p>
 
-              <p>
-                Joker discards your hand and draws to max hand size.
-              </p>
+              <p>Joker discards your hand and draws to max hand size.</p>
 
               <p>
-                Be careful: if you cannot pay discard costs or your hand is empty, you lose the game.
+                Be careful: if you cannot pay discard costs or your hand is
+                empty, you lose the game.
               </p>
             </div>
 
