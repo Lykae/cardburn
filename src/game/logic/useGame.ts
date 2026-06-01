@@ -1,6 +1,7 @@
 import { useRef, useState } from "react";
 import { Deck } from "../engine/Deck";
 import { Card } from "../engine/Card";
+import { s } from "framer-motion/client";
 
 type PlayMode = "normal" | "ace" | "burn";
 type GameStatus = "menu" | "playing" | "won" | "lost";
@@ -37,7 +38,14 @@ export function useGame() {
   const currentPlayer = players[currentPlayerIndex];
 
   const setPlayersSafe = (updater: (p: PlayerState[]) => PlayerState[]) => {
-    setPlayers((prev) => updater([...prev]));
+    setPlayers((prev) =>
+      updater(
+        prev.map((p) => ({
+          ...p,
+          hand: [...p.hand],
+        })),
+      ),
+    );
   };
 
   const playerHand = currentPlayer?.hand ?? [];
@@ -136,9 +144,10 @@ export function useGame() {
   };
 
   const drawCards = (n: number) => {
+    console.log("DRAW CARDS INIT");
     const d = deckRef.current;
 
-    setPlayers((prev) => {
+    setPlayersSafe((prev) => {
       const next = prev.map((p) => ({
         ...p,
         hand: [...p.hand],
@@ -151,7 +160,9 @@ export function useGame() {
 
         let handSize = player.hand.length;
         if (playerIterator === currentPlayerIndex) {
-          handSize -= attackSelection.length;
+          handSize = player.hand.filter(
+            (c) => !attackSelection.includes(c.id),
+          ).length;
         }
 
         if (handSize < maxHandSize) {
@@ -168,8 +179,14 @@ export function useGame() {
         }
 
         let someoneCanDraw = false;
-        next.forEach((p) => {
-          if (p.hand.length < maxHandSize) {
+        next.forEach((p, i) => {
+          let handSize = p.hand.length;
+          if (i === currentPlayerIndex) {
+            handSize = p.hand.filter(
+              (c) => !attackSelection.includes(c.id),
+            ).length;
+          }
+          if (handSize < maxHandSize) {
             someoneCanDraw = true;
           }
         });
@@ -178,6 +195,14 @@ export function useGame() {
 
         playerIterator = (playerIterator + 1) % next.length;
       }
+
+      console.log(
+        "FINAL HANDS",
+        next.map((p, i) => ({
+          player: i,
+          cards: p.hand.map((c) => c.id),
+        })),
+      );
 
       return next;
     });
@@ -242,7 +267,14 @@ export function useGame() {
     setAttackSelection([]);
     setDiscardSelection([]);
 
-    setCurrentPlayerIndex((prev) => (prev + 1) % players.length);
+    const nextPlayerIndex = (currentPlayerIndex + 1) % players.length;
+
+    setCurrentPlayerIndex(nextPlayerIndex);
+
+    if (players[nextPlayerIndex].hand.length === 0) {
+      setGameStatus("lost");
+      return;
+    }
   };
 
   const toggleDiscardSelect = (card: Card) => {
@@ -301,7 +333,6 @@ export function useGame() {
     setPostAttackPhase(false);
     setAttackSelection([]);
     endTurn();
-
   };
 
   const attack = () => {
@@ -399,6 +430,7 @@ export function useGame() {
     setCurrentEnemy(updated);
 
     const attackIds = new Set(cardsToDiscard.map((c) => c.id));
+    console.log("attackIds", attackIds);
 
     setPlayersSafe((prev) => {
       prev[currentPlayerIndex] = {
@@ -423,16 +455,6 @@ export function useGame() {
       (sum, card) => sum + card.value,
       0,
     );
-
-    if (remainingValue <= 0) {
-      setGameStatus("lost");
-      return;
-    }
-
-    if (remainingValue <= updated.strength) {
-      setGameStatus("lost");
-      return;
-    }
 
     setAttackSelection([]);
 
@@ -460,6 +482,9 @@ export function useGame() {
 
       //setTurn("Player");
       endTurn();
+      return;
+    } else if (remainingValue <= updated.strength) {
+      setGameStatus("lost");
       return;
     }
 
