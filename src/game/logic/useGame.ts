@@ -415,7 +415,9 @@ export function useGame() {
       const d = deckRef.current;
 
       if (updated.health === 0) {
-        d.gameCards.unshift(updated);
+        setTimeout(() => {
+          d.gameCards.unshift(updated);
+        }, 0);
       }
 
       setEnemyQueue((prev) => {
