@@ -21,12 +21,33 @@ export default function GameBoard() {
 
   const currentPlayer = game.currentPlayer;
 
+  const playerThemes = [
+    {
+      bg: "bg-teal-900/60",
+      border: "border-teal-500",
+    },
+    {
+      bg: "bg-green-900/60",
+      border: "border-green-500",
+    },
+    {
+      bg: "bg-amber-900/60",
+      border: "border-amber-500",
+    },
+    {
+      bg: "bg-rose-900/60",
+      border: "border-rose-500",
+    },
+  ];
+
+  const theme = playerThemes[game.currentPlayerIndex % playerThemes.length];
+
   function startGame() {
     game.startGame(selectedPlayers);
   }
 
   return (
-    <div className="h-dvh w-screen overflow-hidden bg-gray-950 text-white flex flex-col justify-between">
+    <div className="h-dvh w-screen overflow-hidden bg-gray-950 text-white flex flex-col justify-between bg-">
       {/* START SCREEN */}
       {!game.currentEnemy && game.gameStatus === "menu" && (
         <div className="h-full flex flex-col justify-center items-center gap-6">
@@ -76,7 +97,7 @@ export default function GameBoard() {
                 <motion.button
                   whileTap={{ scale: 0.95 }}
                   onClick={() => setOpenPile("discard")}
-                  className="bg-teal-900/60 rounded-lg border border-teal-500 px-2 py-1"
+                  className="bg-cyan-900/60 rounded-lg border border-cyan-500 px-2 py-1"
                 >
                   Grave: <AnimatedCounter value={game.discard.length} />
                 </motion.button>
@@ -84,12 +105,12 @@ export default function GameBoard() {
                 <motion.button
                   whileTap={{ scale: 0.95 }}
                   onClick={() => setOpenPile("exile")}
-                  className="bg-teal-900/60 rounded-lg border border-teal-500 px-2 py-1"
+                  className="bg-cyan-900/60 rounded-lg border border-cyan-500 px-2 py-1"
                 >
                   Exile: <AnimatedCounter value={game.exile.length} />
                 </motion.button>
 
-                <motion.button className="bg-teal-900/60 rounded-lg border border-teal-500 px-2 py-1">
+                <motion.button className="bg-cyan-900/60 rounded-lg border border-cyan-500 px-2 py-1">
                   Deck: <AnimatedCounter value={game.getDeckCount()} />
                 </motion.button>
               </div>
@@ -141,7 +162,7 @@ export default function GameBoard() {
             <div className="px-3 flex justify-center gap-3">
               <motion.button
                 whileTap={{ scale: 0.97 }}
-                className="w-full md:text-2xl lg:w-[40vw] md:h-20 bg-teal-900/60 rounded-lg border border-teal-500 py-3 font-semibold shadow-lg"
+                className={`${theme.bg} ${theme.border} w-full md:text-2xl lg:w-[40vw] md:h-20 rounded-lg border py-3 font-semibold shadow-lg`}
                 onClick={
                   game.postAttackPhase
                     ? game.confirmDiscardPayment
