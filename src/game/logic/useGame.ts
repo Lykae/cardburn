@@ -188,7 +188,7 @@ export function useGame() {
       if (active.length >= 2) return false;
       if (card.value === 1) return false;
       return true;
-    } else if(card.value === 1) {
+    } else if (card.value === 1) {
       if (active.length > 1) return false;
       return true;
     }
@@ -210,7 +210,12 @@ export function useGame() {
       return true;
     }
 
-    if (card.suit === "Flames" && active.length >= 1) return true;
+    if (
+      card.suit === "Flames" &&
+      active.length >= 1 &&
+      currentEnemy?.suit !== "Flames"
+    )
+      return true;
 
     return false;
   };
@@ -295,9 +300,9 @@ export function useGame() {
       (sum, card) => sum + card.value,
       0,
     );
-    
+
     return remainingValue > currentEnemy.strength;
-  }
+  };
 
   const attack = () => {
     if (!currentEnemy) return;
@@ -516,6 +521,6 @@ export function useGame() {
     endTurn,
     canPlayCard,
     getDeckCount,
-    getPlayerCount
+    getPlayerCount,
   };
 }
