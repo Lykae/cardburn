@@ -97,7 +97,7 @@ export default function GameBoard() {
                 <motion.button
                   whileTap={{ scale: 0.95 }}
                   onClick={() => setOpenPile("discard")}
-                  className="bg-purple-900/60 rounded-lg border border-purple-500 px-2 py-1"
+                  className="bg-cyan-900/60 rounded-lg border border-cyan-500 px-2 py-1"
                 >
                   Grave: <AnimatedCounter value={game.discard.length} />
                 </motion.button>
@@ -105,12 +105,12 @@ export default function GameBoard() {
                 <motion.button
                   whileTap={{ scale: 0.95 }}
                   onClick={() => setOpenPile("exile")}
-                  className="bg-purple-900/60 rounded-lg border border-purple-500 px-2 py-1"
+                  className="bg-cyan-900/60 rounded-lg border border-cyan-500 px-2 py-1"
                 >
                   Exile: <AnimatedCounter value={game.exile.length} />
                 </motion.button>
 
-                <motion.button className="bg-purple-900/60 rounded-lg border border-purple-500 px-2 py-1">
+                <motion.button className="bg-cyan-900/60 rounded-lg border border-cyan-500 px-2 py-1">
                   Deck: <AnimatedCounter value={game.getDeckCount()} />
                 </motion.button>
               </div>
