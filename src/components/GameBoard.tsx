@@ -29,14 +29,7 @@ export default function GameBoard() {
     <div className="h-dvh w-screen overflow-hidden bg-gray-950 text-white flex flex-col justify-between">
       {/* START SCREEN */}
       {!game.currentEnemy && game.gameStatus === "menu" && (
-        <div
-          key="start"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={uiTransition}
-          className="h-full flex flex-col justify-center items-center gap-6"
-        >
+        <div className="h-full flex flex-col justify-center items-center gap-6">
           <h1 className="text-2xl font-bold">Select Players</h1>
 
           <div className="grid grid-cols-2 gap-3">
@@ -123,22 +116,14 @@ export default function GameBoard() {
                 >
                   <div className="mt-2 inline-block bg-red-900/60 border border-red-500 rounded-xl p-3 shadow-lg relative">
                     <div className="w-full flex justify-end">
-                      <div
-                        className="absolute px-2 py-1 ml-15 md:ml-30 md:text-2xl lg:ml-25 bg-red-900/60 border border-red-500 rounded-lg"
-                      >
+                      <div className="absolute px-2 py-1 ml-15 md:ml-30 md:text-2xl lg:ml-25 bg-red-900/60 border border-red-500 rounded-lg">
                         <AnimatedCounter value={game.enemyQueue.length} />
                       </div>
                     </div>
 
-                    <StatPop
-                      label="HP"
-                      value={game.currentEnemy.health}
-                    />
+                    <StatPop label="HP" value={game.currentEnemy.health} />
 
-                    <StatPop
-                      label="STR"
-                      value={game.currentEnemy.strength}
-                    />
+                    <StatPop label="STR" value={game.currentEnemy.strength} />
 
                     <motion.img
                       key={game.currentEnemy.src}
