@@ -9,6 +9,7 @@ export default function GameBoard() {
   const [openPile, setOpenPile] = useState<"discard" | "exile" | null>(null);
   const [selectedPlayers, setSelectedPlayers] = useState<number>(2);
   const [showHelp, setShowHelp] = useState(false);
+  const [showMenu, setShowMenu] = useState(false);
 
   const inGame = !!game.currentEnemy;
 
@@ -50,7 +51,7 @@ export default function GameBoard() {
         </div>
       )}
 
-      {/* ================= GAME UI ================= */}
+      {/* GAME UI */}
       {inGame && (
         <div className="flex-1 m-2 flex flex-col justify-between">
           {/* TOP BAR */}
@@ -77,10 +78,10 @@ export default function GameBoard() {
 
             <div className="flex gap-2 font-semibold z-40">
               <button
-                onClick={() => setShowHelp(true)}
-                className="px-2 py-1 w-12 md:w-15 h-12 md:h-15 bg-purple-900/60 border border-purple-500 rounded-lg text-3xl"
+                onClick={() => setShowMenu(true)}
+                className="px-2 py-1 w-12 md:w-15 h-12 md:h-15 md:text-4xl bg-purple-900/60 border border-purple-500 rounded-lg text-2xl"
               >
-                ?
+                ☰
               </button>
               {/*}
               <button className="px-2 py-1 bg-purple-900/60 border border-purple-500 rounded-lg">
@@ -253,6 +254,46 @@ export default function GameBoard() {
           </div>
         </div>
       )}
+      {showMenu && (
+        <div
+          className="fixed inset-0 bg-black/70 flex items-center justify-center z-50"
+          onClick={() => setShowMenu(false)}
+        >
+          <div
+            className="bg-gray-900 border border-gray-700 rounded-2xl p-6 w-[90vw] max-w-sm"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="flex flex-col gap-3">
+              <button
+                className="bg-red-900/60 border border-red-500 py-3 rounded-xl font-semibold"
+                onClick={() => {
+                  setShowMenu(false);
+                  game.returnToMenu();
+                }}
+              >
+                Start Screen
+              </button>
+
+              <button
+                className="bg-purple-900/60 border border-purple-500 py-3 rounded-xl font-semibold"
+                onClick={() => {
+                  setShowMenu(false);
+                  setShowHelp(true);
+                }}
+              >
+                How to Play
+              </button>
+
+              <button
+                className="bg-gray-900/60 border border-gray-500 py-3 rounded-xl"
+                onClick={() => setShowMenu(false)}
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
       {showHelp && (
         <div
           className="fixed inset-0 bg-black/70 flex items-center justify-center z-50"
@@ -300,8 +341,9 @@ export default function GameBoard() {
 
               <p>Joker discards your hand and draws to max hand size.</p>
 
-              <p>If you leave an enemy at exactly zero health, it will be added on top of the deck.
-                 Otherwise it will go to discard.
+              <p>
+                If you leave an enemy at exactly zero health, it will be added
+                on top of the deck. Otherwise it will go to discard.
               </p>
 
               <p>
@@ -311,7 +353,7 @@ export default function GameBoard() {
             </div>
 
             <button
-              className="mt-5 w-full bg-gray-700 py-2 rounded"
+              className="mt-5 w-full bg-gray-900/60 border border-gray-500 py-2 rounded-xl"
               onClick={() => setShowHelp(false)}
             >
               Close
