@@ -196,11 +196,11 @@ export default function GameBoard() {
                     return (
                       <motion.img
                         key={card.id}
-                        layout
+                        layout="position"
                         initial={{
                           opacity: 0,
-                          y: 60,
-                          scale: 0.8,
+                          y: 24,
+                          scale: 0.96,
                         }}
                         animate={{
                           opacity: 1,
@@ -209,12 +209,18 @@ export default function GameBoard() {
                         }}
                         exit={{
                           opacity: 0,
-                          y: -40,
-                          scale: 0.8,
+                          y: -16,
+                          scale: 0.96,
                         }}
                         transition={{
-                          duration: 0.25,
-                          ease: "easeOut",
+                          type: "tween",
+                          duration: 0.18,
+                          ease: [0.22, 1, 0.36, 1],
+                        }}
+                        style={{
+                          willChange: "transform, opacity",
+                          transformOrigin: "center",
+                          transition: "border-color 300ms ease",
                         }}
                         onClick={() =>
                           game.postAttackPhase
@@ -226,12 +232,14 @@ export default function GameBoard() {
                           index > 0 ? "-ml-8" : ""
                         } ${
                           isSelected
-                            ? "-translate-y-4 ring-2 ring-yellow-400"
+                            ? "-translate-y-4 border border-yellow-400"
                             : ""
                         } ${
                           isPlayable && !isSelected && !game.postAttackPhase
-                            ? "ring-2 ring-green-500/60 hover:ring-green-400"
-                            : "ring-1 ring-black"
+                            ? "border border-green-400"
+                            : game.postAttackPhase
+                              ? "border border-blue-400"
+                              : "border border-red-400"
                         }`}
                       />
                     );
