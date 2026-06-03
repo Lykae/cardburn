@@ -1,7 +1,5 @@
-// hooks/useImagePreloader.ts
 import { useEffect, useState } from "react";
 
-// assets/preloadImages.ts
 
 const images = Array.from(
   { length: 5 * 14 },

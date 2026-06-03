@@ -7,7 +7,7 @@ export default function LoadingScreen({
 }) {
   return (
     <motion.div
-      className="fixed inset-0 z-[999] bg-black flex flex-col items-center justify-center text-white"
+      className="fixed inset-0 z-999 bg-black flex flex-col items-center justify-center text-white"
       initial={{ opacity: 0 }}
       animate={{opacity: 1}}
       exit={{ opacity: 0 }}
