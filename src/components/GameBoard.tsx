@@ -5,7 +5,7 @@ import type { Card } from "../game/engine/Card";
 import { motion, AnimatePresence } from "framer-motion";
 import AnimatedCounter from "./AnimatedCounter";
 import StatPop from "./StatPop";
-import FloatingCards from "./FloatingCards";
+//import FloatingCards from "./FloatingCards";
 import { useImagePreloader } from "../helpers/useImagePreloader";
 import LoadingScreen from "./LoadingScreen";
 
@@ -58,8 +58,8 @@ export default function GameBoard() {
           {/* BACKGROUND LAYER */}
           <div className="absolute inset-0 bg-linear-to-b from-gray-950 via-gray-900 to-black" />
 
-          {/* FLOATING CARDS */}
-          <FloatingCards />
+          {/* FLOATING CARDS (removed cause of lag in webview) */}
+          {/* <FloatingCards /> */}
 
           {/* TITLE */}
           <div className="relative z-10 text-center mb-10">
