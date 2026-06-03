@@ -6,11 +6,6 @@ import { motion, AnimatePresence } from "framer-motion";
 import AnimatedCounter from "./AnimatedCounter";
 import StatPop from "./StatPop";
 
-const uiTransition = {
-  duration: 0.2,
-  ease: [0.4, 0, 0.2, 1] as const,
-};
-
 export default function GameBoard() {
   const game = useGame();
 
