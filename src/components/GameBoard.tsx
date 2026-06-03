@@ -1,11 +1,13 @@
 import { useGame } from "../game/logic/useGame";
 import joker from "../assets/joker.png";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import type { Card } from "../game/engine/Card";
 import { motion, AnimatePresence } from "framer-motion";
 import AnimatedCounter from "./AnimatedCounter";
 import StatPop from "./StatPop";
 import FloatingCards from "./FloatingCards";
+import { useImagePreloader } from "../helpers/useImagePreloader";
+import LoadingScreen from "./LoadingScreen";
 
 export default function GameBoard() {
   const game = useGame();
@@ -14,6 +16,12 @@ export default function GameBoard() {
   const [selectedPlayers, setSelectedPlayers] = useState<number>(2);
   const [showHelp, setShowHelp] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
+
+  const preload = useImagePreloader();
+
+  if (!preload.complete) {
+    return <LoadingScreen progress={preload.progress} />;
+  }
 
   const currentPlayer = game.currentPlayer;
 
