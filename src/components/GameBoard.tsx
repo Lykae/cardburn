@@ -1,6 +1,6 @@
 import { useGame } from "../game/logic/useGame";
 import joker from "../assets/joker.png";
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import type { Card } from "../game/engine/Card";
 import { motion, AnimatePresence } from "framer-motion";
 import AnimatedCounter from "./AnimatedCounter";
@@ -41,7 +41,7 @@ export default function GameBoard() {
     game.startGame(selectedPlayers);
   }
 
-  const shuffledCards = useMemo(() => {
+  const [shuffledCards] = useState(() => {
     const cards = [
       "0_0.png",
       "0_1.png",
@@ -116,7 +116,7 @@ export default function GameBoard() {
     ];
 
     return [...cards].sort(() => Math.random() - 0.5);
-  }, []);
+  });
 
   return (
     <div className="h-dvh w-screen overflow-hidden bg-gray-950 text-white flex flex-col justify-between bg-">
