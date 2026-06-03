@@ -77,7 +77,7 @@ export default function FloatingCards() {
 
     return [...cards].sort(() => Math.random() - 0.5);
   });
-  
+
   function useWindowWidth() {
     const [width, setWidth] = useState(() =>
       typeof window === "undefined" ? 1024 : window.innerWidth,
@@ -112,7 +112,7 @@ export default function FloatingCards() {
         {floatingCards.map((img, i) => (
           <img
             key={i}
-            src={`/cardburn/cards/${img}`}
+            src={`/cards/${img}`}
             className={`h-24 w-auto object-contain rounded-md animate-pulse opacity-${((40 - i) % 5) * 10}`}
           />
         ))}
