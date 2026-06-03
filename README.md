@@ -12,6 +12,7 @@ Play [here](https://lykae.github.io/cardburn/)
 
 
 # Credits
+Inspired by <a href="https://www.regicidegame.com/" title="regicide">Regicide</a>
 
 <a href="https://www.flaticon.com/free-icons/jack-of-spades" title="jack of spades icons">Jack of spades icons created by ArtBit - Flaticon</a>
 
