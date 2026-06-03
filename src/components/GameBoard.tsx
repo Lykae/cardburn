@@ -87,8 +87,10 @@ export default function GameBoard() {
             key="game"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={uiTransition}
+            transition={{
+              duration: 2,
+              ease: [0.4, 0, 0.2, 1] as const,
+            }}
             className="flex-1 m-2 flex flex-col justify-between"
           >
             {/* TOP BAR */}
@@ -129,10 +131,13 @@ export default function GameBoard() {
               {game.currentEnemy && (
                 <motion.div
                   key="enemy"
-                  initial={{ opacity: 0, y: -20 }}
-                  animate={{ opacity: 1, y: 0 }}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
-                  transition={uiTransition}
+                  transition={{
+                    duration: 1,
+                    ease: [0.4, 0, 0.2, 1] as const,
+                  }}
                   className="text-center px-3 pb-2"
                 >
                   <div className="mt-2 inline-block bg-red-900/60 border border-red-500 rounded-xl p-3 shadow-lg relative">
@@ -149,8 +154,13 @@ export default function GameBoard() {
                     <motion.img
                       key={game.currentEnemy.src}
                       src={game.currentEnemy.src}
-                      initial={{ opacity: 0, y: -20 }}
-                      animate={{ opacity: 1, y: 0 }}
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      transition={{
+                        duration: 2,
+                        ease: [0.4, 0, 0.2, 1] as const,
+                      }}
                       className="w-[32dvh] h-[46dvh] mx-auto mt-1 rounded-lg border"
                     />
                   </div>
@@ -235,7 +245,7 @@ export default function GameBoard() {
                         }}
                         transition={{
                           type: "tween",
-                          duration: 0.18,
+                          duration: 0.4,
                           ease: [0.22, 1, 0.36, 1],
                         }}
                         style={{
