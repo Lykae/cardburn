@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Cardburn</string>
+    <string name="title_activity_main">Cardburn</string>
+    <string name="package_name">at.lykae.cardburn</string>
+    <string name="custom_url_scheme">at.lykae.cardburn</string>
+</resources>

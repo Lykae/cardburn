@@ -1,0 +1,8 @@
+{
+  "appId": "at.lykae.cardburn",
+  "appName": "Cardburn",
+  "webDir": "dist",
+  "android": {
+    "backgroundColor": "#030712"
+  }
+}
