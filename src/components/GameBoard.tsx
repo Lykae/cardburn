@@ -132,7 +132,7 @@ export default function GameBoard() {
               {[...shuffledCards, ...shuffledCards].map((img, i) => (
                 <img
                   key={i}
-                  src={`/cardburn/cards/${img}`}
+                  src={`/cards/${img}`}
                   className={`h-24 w-auto object-contain rounded-md animate-pulse opacity-${((40 - i) % 5) * 10}`}
                 />
               ))}
