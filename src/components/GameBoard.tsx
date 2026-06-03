@@ -128,8 +128,8 @@ export default function GameBoard() {
 
           {/* FLOATING CARDS */}
           <div className="absolute inset-0 opacity-10 rotate-[-10deg] scale-125">
-            <div className="grid grid-cols-4 gap-2 p-10">
-              {shuffledCards.map((img, i) => (
+            <div className="grid grid-cols-4 md:grid-cols-10 lg:grid-cols-15 gap-2 p-10">
+              {[...shuffledCards, ...shuffledCards].map((img, i) => (
                 <img
                   key={i}
                   src={`/cardburn/cards/${img}`}
