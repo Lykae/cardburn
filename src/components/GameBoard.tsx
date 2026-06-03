@@ -433,11 +433,16 @@ export default function GameBoard() {
 
                 <p>
                   On your turn, select cards from your hand to perform an
-                  attack.
+                  attack. You deal damage equal to the value of the cards you played.
                 </p>
 
                 <p>
-                  Abilities scale with card value and can combo up to 10 total.
+                  After attacking, discard cards with value equal to or greater than enemy STR.
+                </p>
+
+                <p>
+                  Each card also has an ability. Abilities scale with card value. 
+                  Combo cards with the same value (max total 10) or an ace to combine abilities and values.
                 </p>
 
                 <p>
@@ -445,7 +450,19 @@ export default function GameBoard() {
                   <strong>Spades:</strong> reduce enemy strength <br />
                   <strong>Diamonds:</strong> draw cards <br />
                   <strong>Hearts:</strong> recover cards <br />
-                  <strong>Flames:</strong> exile combo cards
+                  <strong>Flames:</strong> combine and exile
+                </p>
+
+                <p>
+                  Leaving an enemy at exactly 0 HP puts them on top of your deck, otherwise they go to discard.
+                </p>
+
+                <p>
+                  Joker will shuffle your hand into your deck and draw max hand size.
+                </p>
+
+                <p>
+                  <strong>Be careful!</strong> if you can't discard you lose the game.
                 </p>
               </div>
 
