@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Deck } from "../engine/Deck";
 import { Card } from "../engine/Card";
 import type { Enemy } from "../engine/Enemy";
@@ -47,6 +47,19 @@ export function useGame() {
   const playerHand = currentPlayer?.hand ?? [];
 
   const [maxHandSize, setMaxHandSize] = useState<number>(8);
+
+  const shouldLose =
+    currentEnemy &&
+    postAttackPhase &&
+    !jokers.some(Boolean) &&
+    playerHand.reduce((sum, card) => sum + card.value, 0) <=
+      currentEnemy.strength;
+
+  useEffect(() => {
+    if (shouldLose) {
+      setGameStatus("lost");
+    }
+  }, [shouldLose]);
 
   const startGame = (playerCount: number) => {
     setGameStatus("playing");
@@ -295,15 +308,6 @@ export function useGame() {
     endTurn();
   };
 
-  const checkCanDiscard = () => {
-    const remainingValue = playerHand.reduce(
-      (sum, card) => sum + card.value,
-      0,
-    );
-
-    return remainingValue > currentEnemy.strength;
-  };
-
   const attack = () => {
     if (!currentEnemy) return;
 
@@ -448,8 +452,6 @@ export function useGame() {
     setDiscardRequirement(updated.strength);
     setPostAttackPhase(true);
     setDiscardSelection([]);
-
-    setTimeout(checkCanDiscard, 0);
   };
 
   const useJoker = (i: number) => {
