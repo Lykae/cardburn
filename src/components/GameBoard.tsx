@@ -6,11 +6,6 @@ import { motion, AnimatePresence } from "framer-motion";
 import AnimatedCounter from "./AnimatedCounter";
 import StatPop from "./StatPop";
 
-const uiTransition = {
-  duration: 0.2,
-  ease: [0.4, 0, 0.2, 1] as const,
-};
-
 export default function GameBoard() {
   const game = useGame();
 
@@ -46,37 +41,156 @@ export default function GameBoard() {
     game.startGame(selectedPlayers);
   }
 
+  const [shuffledCards] = useState(() => {
+    const cards = [
+      "0_0.png",
+      "0_1.png",
+      "0_2.png",
+      "0_3.png",
+      "0_4.png",
+      "0_5.png",
+      "0_6.png",
+      "0_7.png",
+      "0_8.png",
+      "0_9.png",
+      "0_10.png",
+      "0_11.png",
+      "0_12.png",
+      "0_13.png",
+      "1_0.png",
+      "1_1.png",
+      "1_2.png",
+      "1_3.png",
+      "1_4.png",
+      "1_5.png",
+      "1_6.png",
+      "1_7.png",
+      "1_8.png",
+      "1_9.png",
+      "1_10.png",
+      "1_11.png",
+      "1_12.png",
+      "1_13.png",
+      "2_0.png",
+      "2_1.png",
+      "2_2.png",
+      "2_3.png",
+      "2_4.png",
+      "2_5.png",
+      "2_6.png",
+      "2_7.png",
+      "2_8.png",
+      "2_9.png",
+      "2_10.png",
+      "2_11.png",
+      "2_12.png",
+      "2_13.png",
+      "3_0.png",
+      "3_1.png",
+      "3_2.png",
+      "3_3.png",
+      "3_4.png",
+      "3_5.png",
+      "3_6.png",
+      "3_7.png",
+      "3_8.png",
+      "3_9.png",
+      "3_10.png",
+      "3_11.png",
+      "3_12.png",
+      "3_13.png",
+      "4_0.png",
+      "4_1.png",
+      "4_2.png",
+      "4_3.png",
+      "4_4.png",
+      "4_5.png",
+      "4_6.png",
+      "4_7.png",
+      "4_8.png",
+      "4_9.png",
+      "4_10.png",
+      "4_11.png",
+      "4_12.png",
+      "4_13.png",
+    ];
+
+    return [...cards].sort(() => Math.random() - 0.5);
+  });
+
   return (
     <div className="h-dvh w-screen overflow-hidden bg-gray-950 text-white flex flex-col justify-between bg-">
       {/* START SCREEN */}
       {!game.currentEnemy && game.gameStatus === "menu" && (
-        <div className="h-full flex flex-col justify-center items-center gap-6">
-          <h1 className="text-2xl font-bold">Select Players</h1>
+        <div className="h-full w-full flex flex-col items-center justify-center relative overflow-hidden">
+          {/* BACKGROUND LAYER */}
+          <div className="absolute inset-0 bg-linear-to-b from-gray-950 via-gray-900 to-black" />
 
-          <div className="grid grid-cols-2 gap-3">
-            {[1, 2, 3, 4].map((n) => (
-              <motion.button
-                key={n}
-                whileTap={{ scale: 0.95 }}
-                onClick={() => setSelectedPlayers(n)}
-                className={`px-4 py-2 rounded-xl border ${
-                  selectedPlayers === n
-                    ? "bg-teal-900/60 border-teal-500"
-                    : "bg-gray-800 border-gray-600"
-                }`}
-              >
-                {n} Players
-              </motion.button>
-            ))}
+          {/* FLOATING CARDS */}
+          <div className="absolute inset-0 opacity-10 rotate-[-10deg] scale-125">
+            <div className="grid grid-cols-4 md:grid-cols-10 lg:grid-cols-15 gap-2 p-10">
+              {[...shuffledCards, ...shuffledCards].map((img, i) => (
+                <img
+                  key={i}
+                  src={`/cardburn/cards/${img}`}
+                  className={`h-24 w-auto object-contain rounded-md animate-pulse opacity-${((40 - i) % 5) * 10}`}
+                />
+              ))}
+            </div>
           </div>
 
-          <motion.button
-            whileTap={{ scale: 0.95 }}
-            className="bg-green-900/60 border-green-500 border px-6 py-3 rounded-xl font-semibold shadow"
-            onClick={startGame}
+          {/* TITLE */}
+          <div className="relative z-10 text-center mb-10">
+            <h1 className="text-5xl md:text-7xl font-black tracking-widest text-white drop-shadow-lg">
+              CARD<span className="text-red-500">BURN</span>
+            </h1>
+
+            <p className="text-gray-400 mt-3 text-sm md:text-base">
+              Burn it down. Take the crown.
+            </p>
+          </div>
+
+          {/* CARD COUNT SELECTOR */}
+          <div className="relative z-10 bg-gray-900/60 border border-gray-700 backdrop-blur-md rounded-2xl p-6 w-[90vw] max-w-sm shadow-xl">
+            <h2 className="text-center text-lg font-semibold mb-4 text-gray-200">
+              Select Players
+            </h2>
+
+            <div className="grid grid-cols-2 gap-3 mb-5">
+              {[1, 2, 3, 4].map((n) => (
+                <motion.button
+                  key={n}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={() => setSelectedPlayers(n)}
+                  className={`px-4 py-3 rounded-xl border transition ${
+                    selectedPlayers === n
+                      ? "bg-red-900/60 border-red-500 text-white"
+                      : "bg-gray-800 border-gray-600 text-gray-300"
+                  }`}
+                >
+                  {n} Players
+                </motion.button>
+              ))}
+            </div>
+
+            {/* START BUTTON */}
+            <motion.button
+              whileTap={{ scale: 0.95 }}
+              onClick={startGame}
+              className="w-full py-4 rounded-xl font-bold text-lg tracking-wide bg-red-900/60 border border-red-500 shadow-lg hover:bg-red-800/70 transition"
+            >
+              BURN THE DECK
+            </motion.button>
+          </div>
+          {/* SMALL FOOTER */}
+          <a
+            href="https://github.com/Lykae/cardburn"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="absolute bottom-6 text-xs text-gray-500 z-10 underline underline-offset-4 decoration-gray-600 hover:text-gray-200 hover:decoration-gray-300 transition cursor-pointer"
           >
-            Start Game
-          </motion.button>
+            Source Code and Credits ↗
+          </a>
         </div>
       )}
 
@@ -87,8 +201,10 @@ export default function GameBoard() {
             key="game"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={uiTransition}
+            transition={{
+              duration: 2,
+              ease: [0.4, 0, 0.2, 1] as const,
+            }}
             className="flex-1 m-2 flex flex-col justify-between"
           >
             {/* TOP BAR */}
@@ -129,10 +245,13 @@ export default function GameBoard() {
               {game.currentEnemy && (
                 <motion.div
                   key="enemy"
-                  initial={{ opacity: 0, y: -20 }}
-                  animate={{ opacity: 1, y: 0 }}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
-                  transition={uiTransition}
+                  transition={{
+                    duration: 1,
+                    ease: [0.4, 0, 0.2, 1] as const,
+                  }}
                   className="text-center px-3 pb-2"
                 >
                   <div className="mt-2 inline-block bg-red-900/60 border border-red-500 rounded-xl p-3 shadow-lg relative">
@@ -149,8 +268,13 @@ export default function GameBoard() {
                     <motion.img
                       key={game.currentEnemy.src}
                       src={game.currentEnemy.src}
-                      initial={{ opacity: 0, y: -20 }}
-                      animate={{ opacity: 1, y: 0 }}
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      transition={{
+                        duration: 2,
+                        ease: [0.4, 0, 0.2, 1] as const,
+                      }}
                       className="w-[32dvh] h-[46dvh] mx-auto mt-1 rounded-lg border"
                     />
                   </div>
@@ -235,7 +359,7 @@ export default function GameBoard() {
                         }}
                         transition={{
                           type: "tween",
-                          duration: 0.18,
+                          duration: 0.4,
                           ease: [0.22, 1, 0.36, 1],
                         }}
                         style={{
@@ -428,11 +552,19 @@ export default function GameBoard() {
 
                 <p>
                   On your turn, select cards from your hand to perform an
-                  attack.
+                  attack. You deal damage equal to the value of the cards you
+                  played.
                 </p>
 
                 <p>
-                  Abilities scale with card value and can combo up to 10 total.
+                  After attacking, discard cards with value equal to or greater
+                  than enemy STR.
+                </p>
+
+                <p>
+                  Each card also has an ability. Abilities scale with card
+                  value. Combo cards with the same value (max total 10) or an
+                  ace to combine abilities and values.
                 </p>
 
                 <p>
@@ -440,7 +572,22 @@ export default function GameBoard() {
                   <strong>Spades:</strong> reduce enemy strength <br />
                   <strong>Diamonds:</strong> draw cards <br />
                   <strong>Hearts:</strong> recover cards <br />
-                  <strong>Flames:</strong> exile combo cards
+                  <strong>Flames:</strong> combine and exile
+                </p>
+
+                <p>
+                  Leaving an enemy at exactly 0 HP puts them on top of your
+                  deck, otherwise they go to discard.
+                </p>
+
+                <p>
+                  Joker will shuffle your hand into your deck and draw max hand
+                  size.
+                </p>
+
+                <p>
+                  <strong>Be careful!</strong> if you can't discard you lose the
+                  game.
                 </p>
               </div>
 
