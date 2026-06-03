@@ -400,7 +400,6 @@ export function useGame() {
     setCurrentEnemy(updated);
 
     const attackIds = new Set(cardsToDiscard.map((c) => c.id));
-    console.log("attackIds", attackIds);
 
     setPlayersSafe((prev) => {
       prev[currentPlayerIndex] = {
