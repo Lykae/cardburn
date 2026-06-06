@@ -10,6 +10,7 @@ async function setup() {
 
   await StatusBar.setOverlaysWebView({ overlay: true });
   await StatusBar.setStyle({ style: Style.Dark });
+  await StatusBar.hide();
 }
 
 setup();
