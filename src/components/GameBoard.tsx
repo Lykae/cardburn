@@ -252,7 +252,7 @@ export default function GameBoard() {
             {/* HAND */}
             <div className="px-2 pb-2 flex justify-center">
               <div className="flex overflow-x-auto no-scrollbar pt-5 py-2 px-4">
-                <AnimatePresence>
+                <AnimatePresence mode="popLayout">
                   {currentPlayer.hand.map((card: Card, index: number) => {
                     const isSelected =
                       game.attackSelection.includes(card.id) ||
@@ -263,7 +263,8 @@ export default function GameBoard() {
                     return (
                       <motion.img
                         key={card.id}
-                        layout="position"
+                        layoutId={card.id}
+                        layout
                         initial={{
                           opacity: 0,
                           y: 24,
