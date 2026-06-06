@@ -16,6 +16,7 @@ export default function GameBoard() {
   const [selectedPlayers, setSelectedPlayers] = useState<number>(2);
   const [showHelp, setShowHelp] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
+  const [actionDisabled, setActionDisabled] = useState(false);
 
   const preload = useImagePreloader();
 
@@ -48,6 +49,17 @@ export default function GameBoard() {
 
   function startGame() {
     game.startGame(selectedPlayers);
+  }
+
+  function handleAction() {
+    if (actionDisabled) return;
+
+    if (game.postAttackPhase) game.confirmDiscardPayment();
+    else game.attack();
+    setActionDisabled(true);
+    setTimeout(function() {
+      setActionDisabled(false);
+    }, 2000);
   }
 
   return (
@@ -208,12 +220,8 @@ export default function GameBoard() {
             <div className="px-3 flex justify-center gap-3">
               <motion.button
                 whileTap={{ scale: 0.97 }}
-                className={`${theme.bg} ${theme.border} w-full md:text-2xl lg:w-[40vw] md:h-20 rounded-lg border py-3 font-semibold shadow-lg`}
-                onClick={
-                  game.postAttackPhase
-                    ? game.confirmDiscardPayment
-                    : game.attack
-                }
+                className={`actionbar ${theme.bg} ${theme.border} w-full md:text-2xl lg:w-[40vw] md:h-20 rounded-lg border py-3 font-semibold shadow-lg`}
+                onClick={handleAction}
               >
                 <div className="flex flex-row gap-1 justify-center">
                   {game.getPlayerCount() !== 1 && (
