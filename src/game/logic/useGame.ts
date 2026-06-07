@@ -22,7 +22,6 @@ type GameSnapshot = {
   discardSelection: string[];
   postAttackPhase: boolean;
   attackSelection: string[];
-  gameStatus: GameStatus;
 };
 
 export function useGame() {
@@ -96,7 +95,6 @@ export function useGame() {
       discardSelection: [...discardSelection],
       postAttackPhase,
       attackSelection: [...attackSelection],
-      gameStatus,
     });
   };
 
@@ -117,7 +115,6 @@ export function useGame() {
     setDiscardSelection(snapshot.discardSelection);
     setPostAttackPhase(snapshot.postAttackPhase);
     setAttackSelection(snapshot.attackSelection);
-    setGameStatus(snapshot.gameStatus);
 
     setHistory(null);
   };

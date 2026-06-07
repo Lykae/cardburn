@@ -213,7 +213,7 @@ export default function GameBoard() {
             </AnimatePresence>
 
             {/* UNDO BUTTON */}
-            <div className="fixed left-0 top-1/3 -translate-y-1/2 z-40">
+            <div className="absolute left-0 top-1/3 -translate-y-1/2 z-40">
               <motion.button
                 layout={false}
                 whileTap={{ scale: 0.95 }}
@@ -233,7 +233,7 @@ export default function GameBoard() {
 
             {/* TEAMMATE HAND BUTTONS */}
             {game.players.length > 1 && (
-              <div className="fixed right-0 top-1/3 -translate-y-1/2 z-40 flex flex-col gap-2 pr-0">
+              <div className="absolute right-0 top-1/3 -translate-y-1/2 z-40 flex flex-col gap-2 pr-0">
                 {game.players.map((_, i) => (
                   <motion.button
                     layout={false}
