@@ -4,8 +4,24 @@ import { Card } from "../engine/Card";
 import type { Enemy } from "../engine/Enemy";
 
 type GameStatus = "menu" | "playing" | "won" | "lost";
+
 type PlayerState = {
   hand: Card[];
+};
+
+type GameSnapshot = {
+  players: PlayerState[];
+  currentPlayerIndex: number;
+  discard: Card[];
+  exile: Card[];
+  enemyQueue: Enemy[];
+  currentEnemy: Enemy | null;
+  jokers: boolean[];
+  hasAttacked: boolean;
+  discardRequirement: number;
+  discardSelection: string[];
+  postAttackPhase: boolean;
+  attackSelection: string[];
 };
 
 export function useGame() {
@@ -31,8 +47,9 @@ export function useGame() {
 
   const [gameStatus, setGameStatus] = useState<GameStatus>("menu");
 
-  
   const [actionDisabled, setActionDisabled] = useState(false);
+
+  const [history, setHistory] = useState<GameSnapshot>(null);
 
   const currentPlayer = players[currentPlayerIndex];
 
@@ -64,10 +81,55 @@ export function useGame() {
     }
   }, [shouldLose]);
 
+  const saveSnapshot = () => {
+    setHistory({
+      players: structuredClone(players),
+      currentPlayerIndex,
+      discard: structuredClone(discard),
+      exile: structuredClone(exile),
+      enemyQueue: structuredClone(enemyQueue),
+      currentEnemy: structuredClone(currentEnemy),
+      jokers: [...jokers],
+      hasAttacked,
+      discardRequirement,
+      discardSelection: [...discardSelection],
+      postAttackPhase,
+      attackSelection: [...attackSelection],
+    });
+  };
+
+  const undo = () => {
+    if (history === null) return;
+
+    const snapshot = history;
+
+    setPlayers(snapshot.players);
+    setCurrentPlayerIndex(snapshot.currentPlayerIndex);
+    setDiscard(snapshot.discard);
+    setExile(snapshot.exile);
+    setEnemyQueue(snapshot.enemyQueue);
+    setCurrentEnemy(snapshot.currentEnemy);
+    setJokers(snapshot.jokers);
+    setHasAttacked(snapshot.hasAttacked);
+    setDiscardRequirement(snapshot.discardRequirement);
+    setDiscardSelection(snapshot.discardSelection);
+    setPostAttackPhase(snapshot.postAttackPhase);
+    setAttackSelection(snapshot.attackSelection);
+
+    setHistory(null);
+  };
+
+  const canUndo = () => {
+    console.log("canUndo history", history);
+    return history !== null;
+  };
+
   const disableActionTemporary = () => {
     setActionDisabled(true);
-    setTimeout(function() {setActionDisabled(false);}, 1000);
-  }
+    setTimeout(function () {
+      setActionDisabled(false);
+    }, 1000);
+  };
 
   const startGame = (playerCount: number) => {
     setGameStatus("playing");
@@ -289,6 +351,7 @@ export function useGame() {
   };
 
   const confirmDiscardPayment = () => {
+    saveSnapshot();
     disableActionTemporary();
     if (!postAttackPhase) return;
 
@@ -318,6 +381,7 @@ export function useGame() {
   };
 
   const attack = () => {
+    saveSnapshot();
     if (!currentEnemy) return;
     disableActionTemporary();
 
@@ -465,6 +529,7 @@ export function useGame() {
 
   const useJoker = (i: number) => {
     if (!jokers[i]) return;
+    saveSnapshot();
 
     const d = deckRef.current;
 
@@ -505,7 +570,7 @@ export function useGame() {
     exile,
 
     players,
-    
+
     actionDisabled,
 
     currentEnemy,
@@ -539,5 +604,8 @@ export function useGame() {
     canPlayCard,
     getDeckCount,
     getPlayerCount,
+
+    undo,
+    canUndo,
   };
 }

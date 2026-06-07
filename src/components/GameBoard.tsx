@@ -212,16 +212,36 @@ export default function GameBoard() {
               )}
             </AnimatePresence>
 
+            {/* UNDO BUTTON */}
+            <div className="absolute left-0 top-1/3 -translate-y-1/2 z-40">
+              <motion.button
+                layout={false}
+                whileTap={{ scale: 0.95 }}
+                disabled={!game.canUndo()}
+                onClick={game.undo}
+                className={`
+                            w-9 h-16 rounded-r-xl border border-l-0 shadow-lg
+                            bg-indigo-900/60 border-indigo-500
+                            text-xl font-bold
+                            transition-opacity duration-200
+                            ${game.canUndo() ? "opacity-100" : "opacity-40 cursor-not-allowed"}
+                          `}
+              >
+                ↶
+              </motion.button>
+            </div>
+
             {/* TEAMMATE HAND BUTTONS */}
             {game.players.length > 1 && (
-              <div className="fixed right-0 top-1/3 -translate-y-1/2 z-40 flex flex-col gap-2 pr-0">
+              <div className="absolute right-0 top-1/3 -translate-y-1/2 z-40 flex flex-col gap-2 pr-0">
                 {game.players.map((_, i) => (
                   <motion.button
+                    layout={false}
                     key={i}
                     whileTap={{ scale: 0.95 }}
                     onClick={() => setOpenHandPlayer(i)}
                     className={`
-                                w-10 h-16 rounded-l-xl border border-r-0 ${playerThemes[i].bg} ${playerThemes[i].border}
+                                w-9 h-16 rounded-l-xl border border-r-0 ${playerThemes[i].bg} ${playerThemes[i].border}
                                 text-xs font-bold shadow-lg
                                 transition-opacity duration-1000
                                 ${
@@ -576,7 +596,7 @@ export default function GameBoard() {
                 </p>
 
                 <p>
-                  Joker will shuffle your hand into your deck and draw max hand
+                  Joker will discard your hand and then draw max hand
                   size.
                 </p>
 
