@@ -219,7 +219,6 @@ export default function GameBoard() {
                   <motion.button
                     key={i}
                     whileTap={{ scale: 0.95 }}
-                    disabled={i === game.currentPlayerIndex}
                     onClick={() => setOpenHandPlayer(i)}
                     className={`
                                 w-12 h-16 rounded-l-xl border border-r-0 ${playerThemes[i].bg} ${playerThemes[i].border}
@@ -227,8 +226,8 @@ export default function GameBoard() {
                                 transition-opacity duration-1000
                                 ${
                                   i === game.currentPlayerIndex
-                                    ? "opacity-30 cursor-not-allowed"
-                                    : "opacity-100"
+                                    ? "opacity-100 cursor-not-allowed"
+                                    : "opacity-40"
                                 }
                               `}
                   >
