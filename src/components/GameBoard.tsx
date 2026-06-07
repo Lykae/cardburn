@@ -221,7 +221,7 @@ export default function GameBoard() {
                     whileTap={{ scale: 0.95 }}
                     onClick={() => setOpenHandPlayer(i)}
                     className={`
-                                w-12 h-16 rounded-l-xl border border-r-0 ${playerThemes[i].bg} ${playerThemes[i].border}
+                                w-10 h-16 rounded-l-xl border border-r-0 ${playerThemes[i].bg} ${playerThemes[i].border}
                                 text-xs font-bold shadow-lg
                                 transition-opacity duration-1000
                                 ${
