@@ -222,7 +222,7 @@ export default function GameBoard() {
                 className={`
                             w-9 h-16 rounded-r-xl border border-l-0 shadow-lg
                             bg-indigo-900/60 border-indigo-500
-                            text-xs font-bold
+                            text-xl font-bold
                             transition-opacity duration-200
                             ${game.canUndo() ? "opacity-100" : "opacity-40 cursor-not-allowed"}
                           `}
