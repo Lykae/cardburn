@@ -53,7 +53,7 @@ export function useGame() {
 
   const currentPlayer = players[currentPlayerIndex];
 
-  const setPlayersSafe = (updater: (p: PlayerState[]) => PlayerState[]) => {
+  const setPlayersSafe = (updater) => {
     setPlayers((prev) =>
       updater(
         prev.map((p) => ({
@@ -80,6 +80,16 @@ export function useGame() {
       setGameStatus("lost");
     }
   }, [shouldLose]);
+
+  const addCardToHand = (hand: Card[], card: Card) => {
+    if (hand.some((c) => c.id === card.id)) return hand;
+    return [...hand, card];
+  };
+
+  const removeCardsFromHand = (hand: Card[], ids: string[]) => {
+    const set = new Set(ids);
+    return hand.filter((c) => !set.has(c.id));
+  };
 
   const saveSnapshot = () => {
     setHistory({
@@ -238,7 +248,7 @@ export function useGame() {
           const card = d.gameCards.shift();
           if (!card) break;
 
-          player.hand.push(card);
+          player.hand = addCardToHand(player.hand, card);
           n--;
         }
 
@@ -360,16 +370,16 @@ export function useGame() {
     const total = selectedCards.reduce((s, c) => s + c.value, 0);
     if (total < discardRequirement) return;
 
-    setPlayersSafe((prev) => {
-      prev[currentPlayerIndex] = {
-        ...prev[currentPlayerIndex],
-        hand: prev[currentPlayerIndex].hand.filter(
-          (c) => !discardSelection.includes(c.id),
-        ),
-      };
-
-      return prev;
-    });
+    setPlayers((prev) =>
+      prev.map((p, i) =>
+        i === currentPlayerIndex
+          ? {
+              ...p,
+              hand: p.hand.filter((c) => !discardSelection.includes(c.id)),
+            }
+          : p,
+      ),
+    );
 
     setDiscard((old) => [...old, ...selectedCards]);
 
@@ -455,16 +465,27 @@ export function useGame() {
 
           const exiledIds = new Set(exiled.map((c) => c.id));
 
-          setPlayersSafe((prev) => {
-            prev[currentPlayerIndex] = {
-              ...prev[currentPlayerIndex],
-              hand: prev[currentPlayerIndex].hand.filter(
-                (c) => !exiledIds.has(c.id),
-              ),
-            };
+          //setPlayersSafe((prev) => {
+          //  prev[currentPlayerIndex] = {
+          //    ...prev[currentPlayerIndex],
+          //    hand: prev[currentPlayerIndex].hand.filter(
+          //      (c) => !exiledIds.has(c.id),
+          //    ),
+          //  };
+          //
+          //  return prev;
+          //});
 
-            return prev;
-          });
+          setPlayers((prev) =>
+            prev.map((p, i) =>
+              i === currentPlayerIndex
+                ? {
+                    ...p,
+                    hand: p.hand.filter((c) => !exiledIds.has(c.id)),
+                  }
+                : p,
+            ),
+          );
 
           cardsToDiscard = cardsToDiscard.filter((c) => !exiledIds.has(c.id));
         }
@@ -475,14 +496,25 @@ export function useGame() {
 
     const attackIds = new Set(cardsToDiscard.map((c) => c.id));
 
-    setPlayersSafe((prev) => {
-      prev[currentPlayerIndex] = {
-        ...prev[currentPlayerIndex],
-        hand: prev[currentPlayerIndex].hand.filter((c) => !attackIds.has(c.id)),
-      };
+    //setPlayersSafe((prev) => {
+    //  prev[currentPlayerIndex] = {
+    //    ...prev[currentPlayerIndex],
+    //    hand: prev[currentPlayerIndex].hand.filter((c) => !attackIds.has(c.id)),
+    //  };
+    //
+    //  return prev;
+    //});
 
-      return prev;
-    });
+    setPlayers((prev) =>
+      prev.map((p, i) =>
+        i === currentPlayerIndex
+          ? {
+              ...p,
+              hand: p.hand.filter((c) => !attackIds.has(c.id)),
+            }
+          : p,
+      ),
+    );
 
     setDiscard((old) => [...old, ...cardsToDiscard]);
 
@@ -545,7 +577,9 @@ export function useGame() {
       d.gameCards.push(...discarded);
       d.shuffle(d.gameCards);
 
-      player.hand = d.gameCards.splice(0, maxHandSize);
+      player.hand = d.gameCards
+        .splice(0, maxHandSize)
+        .filter((c, i, arr) => arr.findIndex((x) => x.id === c.id) === i);
 
       return next;
     });
