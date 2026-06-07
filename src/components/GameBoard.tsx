@@ -495,7 +495,8 @@ export default function GameBoard() {
                 <p>
                   Each card also has an ability. Abilities scale with card
                   value. Combo cards with the same value (max total 10) or an
-                  ace to combine abilities and values.
+                  ace to combine abilities and values. Abilities of the same suit 
+                  as the enemy won't activate.
                 </p>
 
                 <p>
@@ -517,7 +518,7 @@ export default function GameBoard() {
                 </p>
 
                 <p>
-                  <strong>Be careful!</strong> if you can't discard you lose the
+                  <strong>Be careful!</strong> If you can't discard you lose the
                   game.
                 </p>
               </div>
