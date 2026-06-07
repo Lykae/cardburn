@@ -16,7 +16,7 @@ export default function GameBoard() {
   const [selectedPlayers, setSelectedPlayers] = useState<number>(2);
   const [showHelp, setShowHelp] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
-  const [actionDisabled, setActionDisabled] = useState(false);
+  const [openHandPlayer, setOpenHandPlayer] = useState<number | null>(null);
 
   const preload = useImagePreloader();
 
@@ -52,14 +52,10 @@ export default function GameBoard() {
   }
 
   function handleAction() {
-    if (actionDisabled) return;
+    if (game.actionDisabled) return;
 
     if (game.postAttackPhase) game.confirmDiscardPayment();
     else game.attack();
-    setActionDisabled(true);
-    setTimeout(function() {
-      setActionDisabled(false);
-    }, 2000);
   }
 
   return (
@@ -216,6 +212,32 @@ export default function GameBoard() {
               )}
             </AnimatePresence>
 
+            {/* TEAMMATE HAND BUTTONS */}
+            {game.players.length > 1 && (
+              <div className="fixed right-0 top-1/3 -translate-y-1/2 z-40 flex flex-col gap-2 pr-0">
+                {game.players.map((_, i) => (
+                  <motion.button
+                    key={i}
+                    whileTap={{ scale: 0.95 }}
+                    disabled={i === game.currentPlayerIndex}
+                    onClick={() => setOpenHandPlayer(i)}
+                    className={`
+                                w-12 h-16 rounded-l-xl border border-r-0 ${playerThemes[i].bg} ${playerThemes[i].border}
+                                text-xs font-bold shadow-lg
+                                transition-opacity duration-1000
+                                ${
+                                  i === game.currentPlayerIndex
+                                    ? "opacity-30 cursor-not-allowed"
+                                    : "opacity-100"
+                                }
+                              `}
+                  >
+                    P{i + 1}
+                  </motion.button>
+                ))}
+              </div>
+            )}
+
             {/* ACTION BUTTON */}
             <div className="px-3 flex justify-center gap-3">
               <motion.button
@@ -364,6 +386,48 @@ export default function GameBoard() {
         )}
       </AnimatePresence>
 
+      {/* TEAMMATE HAND MODAL */}
+      <AnimatePresence>
+        {openHandPlayer !== null && (
+          <motion.div
+            key="hand-modal"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-black/70 flex items-center justify-center z-50"
+            onClick={() => setOpenHandPlayer(null)}
+          >
+            <motion.div
+              initial={{ scale: 0.9 }}
+              animate={{ scale: 1 }}
+              className="bg-gray-900 border border-gray-700 rounded-2xl p-4 w-[90vw] max-w-md max-h-[80vh] overflow-y-auto"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <h2 className="text-lg font-bold mb-3">
+                Player {openHandPlayer + 1} Hand
+              </h2>
+
+              <div className="grid grid-cols-3 gap-2">
+                {game.players[openHandPlayer].hand.map((card: Card) => (
+                  <img
+                    key={card.id}
+                    src={card.src}
+                    className="w-full rounded border border-gray-700"
+                  />
+                ))}
+              </div>
+
+              <button
+                className="mt-4 w-full bg-gray-700 py-2 rounded"
+                onClick={() => setOpenHandPlayer(null)}
+              >
+                Close
+              </button>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       {/* PILE MODAL */}
       <AnimatePresence>
         {openPile && (
@@ -495,8 +559,8 @@ export default function GameBoard() {
                 <p>
                   Each card also has an ability. Abilities scale with card
                   value. Combo cards with the same value (max total 10) or an
-                  ace to combine abilities and values. Abilities of the same suit 
-                  as the enemy won't activate.
+                  ace to combine abilities and values. Abilities of the same
+                  suit as the enemy won't activate.
                 </p>
 
                 <p>

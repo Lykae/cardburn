@@ -31,6 +31,9 @@ export function useGame() {
 
   const [gameStatus, setGameStatus] = useState<GameStatus>("menu");
 
+  
+  const [actionDisabled, setActionDisabled] = useState(false);
+
   const currentPlayer = players[currentPlayerIndex];
 
   const setPlayersSafe = (updater: (p: PlayerState[]) => PlayerState[]) => {
@@ -60,6 +63,11 @@ export function useGame() {
       setGameStatus("lost");
     }
   }, [shouldLose]);
+
+  const disableActionTemporary = () => {
+    setActionDisabled(true);
+    setTimeout(function() {setActionDisabled(false);}, 1000);
+  }
 
   const startGame = (playerCount: number) => {
     setGameStatus("playing");
@@ -281,6 +289,7 @@ export function useGame() {
   };
 
   const confirmDiscardPayment = () => {
+    disableActionTemporary();
     if (!postAttackPhase) return;
 
     const selectedCards = getSelectedCards();
@@ -310,6 +319,7 @@ export function useGame() {
 
   const attack = () => {
     if (!currentEnemy) return;
+    disableActionTemporary();
 
     const resolvedCards = currentPlayer.hand.filter((c) =>
       attackSelection.includes(c.id),
@@ -493,6 +503,10 @@ export function useGame() {
   return {
     discard,
     exile,
+
+    players,
+    
+    actionDisabled,
 
     currentEnemy,
     enemyQueue,
