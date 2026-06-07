@@ -596,7 +596,7 @@ export default function GameBoard() {
                 </p>
 
                 <p>
-                  Joker will shuffle your hand into your deck and draw max hand
+                  Joker will discard your hand and then draw max hand
                   size.
                 </p>
 
