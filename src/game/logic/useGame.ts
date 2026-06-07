@@ -86,11 +86,6 @@ export function useGame() {
     return [...hand, card];
   };
 
-  const removeCardsFromHand = (hand: Card[], ids: string[]) => {
-    const set = new Set(ids);
-    return hand.filter((c) => !set.has(c.id));
-  };
-
   const saveSnapshot = () => {
     setHistory({
       players: structuredClone(players),
@@ -465,17 +460,6 @@ export function useGame() {
 
           const exiledIds = new Set(exiled.map((c) => c.id));
 
-          //setPlayersSafe((prev) => {
-          //  prev[currentPlayerIndex] = {
-          //    ...prev[currentPlayerIndex],
-          //    hand: prev[currentPlayerIndex].hand.filter(
-          //      (c) => !exiledIds.has(c.id),
-          //    ),
-          //  };
-          //
-          //  return prev;
-          //});
-
           setPlayers((prev) =>
             prev.map((p, i) =>
               i === currentPlayerIndex
@@ -495,15 +479,6 @@ export function useGame() {
     setCurrentEnemy(updated);
 
     const attackIds = new Set(cardsToDiscard.map((c) => c.id));
-
-    //setPlayersSafe((prev) => {
-    //  prev[currentPlayerIndex] = {
-    //    ...prev[currentPlayerIndex],
-    //    hand: prev[currentPlayerIndex].hand.filter((c) => !attackIds.has(c.id)),
-    //  };
-    //
-    //  return prev;
-    //});
 
     setPlayers((prev) =>
       prev.map((p, i) =>
