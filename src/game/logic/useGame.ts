@@ -213,6 +213,7 @@ export function useGame() {
     setDiscardSelection([]);
     setPostAttackPhase(false);
     setAttackSelection([]);
+    setHistory(null);
 
     setGameStatus("menu");
   };
