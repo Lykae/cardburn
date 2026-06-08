@@ -59,7 +59,7 @@ export default function GameBoard() {
   }
 
   return (
-    <div className="h-dvh w-screen overflow-hidden bg-gray-950 text-white flex flex-col justify-between bg-">
+    <div className="h-dvh w-screen overflow-hidden bg-gray-950 text-white flex flex-col justify-between">
       {/* START SCREEN */}
       {!game.currentEnemy && game.gameStatus === "menu" && (
         <div className="h-full w-full flex flex-col items-center justify-center relative overflow-hidden">
@@ -299,9 +299,8 @@ export default function GameBoard() {
             </div>
 
             {/* HAND */}
-            <div className="px-2 pb-2 flex justify-center">
-              <div className="flex overflow-x-auto no-scrollbar pt-5 py-2 px-4">
-                <AnimatePresence mode="popLayout">
+            <div className="px-2 pb-2 flex justify-center overflow-y-hidden">
+              <div className="flex overflow-x-auto overflow-y-hidden no-scrollbar pt-5 py-2 px-4">
                   {currentPlayer.hand.map((card: Card, index: number) => {
                     const isSelected =
                       game.attackSelection.includes(card.id) ||
@@ -361,7 +360,6 @@ export default function GameBoard() {
                       />
                     );
                   })}
-                </AnimatePresence>
               </div>
             </div>
           </motion.div>
