@@ -17,6 +17,7 @@ export default function GameBoard() {
   const [showHelp, setShowHelp] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
   const [openHandPlayer, setOpenHandPlayer] = useState<number | null>(null);
+  const [loadedCards, setLoadedCards] = useState<Set<string>>(new Set());
 
   const preload = useImagePreloader();
 
@@ -301,65 +302,76 @@ export default function GameBoard() {
             {/* HAND */}
             <div className="px-2 pb-2 flex justify-center overflow-y-hidden">
               <div className="flex overflow-x-auto overflow-y-hidden no-scrollbar pt-5 py-2 px-4">
-                  {currentPlayer.hand.map((card: Card, index: number) => {
-                    const isSelected =
-                      game.attackSelection.includes(card.id) ||
-                      game.discardSelection.includes(card.id);
+                {currentPlayer.hand.map((card: Card, index: number) => {
+                  const isSelected =
+                    game.attackSelection.includes(card.id) ||
+                    game.discardSelection.includes(card.id);
 
-                    const isPlayable = game.canPlayCard(card);
+                  const isPlayable = game.canPlayCard(card);
 
-                    return (
-                      <motion.img
-                        key={card.id}
-                        layoutId={card.id}
-                        layout
-                        initial={{
-                          opacity: 0,
-                          y: 24,
-                          scale: 0.96,
-                        }}
-                        animate={{
-                          opacity: 1,
-                          y: 0,
-                          scale: 1,
-                        }}
-                        exit={{
-                          opacity: 0,
-                          y: -16,
-                          scale: 0.96,
-                        }}
-                        transition={{
-                          type: "tween",
-                          duration: 0.4,
-                          ease: [0.22, 1, 0.36, 1],
-                        }}
-                        style={{
-                          willChange: "transform, opacity",
-                          transformOrigin: "center",
-                          transition: "border-color 300ms ease",
-                        }}
-                        onClick={() =>
-                          game.postAttackPhase
-                            ? game.toggleDiscardSelect(card)
-                            : game.toggleAttackSelect(card)
-                        }
-                        src={card.src}
-                        className={`w-22 md:w-32 lg:w-40 aspect-2.5/3.5 object-cover rounded-lg border shadow-md shrink-0 ${
-                          index > 0 ? "-ml-8" : ""
-                        } ${
-                          isSelected
-                            ? "-translate-y-4 border border-yellow-400"
-                            : ""
-                        } ${
-                          isPlayable && !isSelected && !game.postAttackPhase
+                  const isLoaded = loadedCards.has(card.id);
+
+                  return (
+                    <motion.img
+                      key={card.id}
+                      layoutId={card.id}
+                      layout
+                      initial={{
+                        opacity: 0,
+                        y: 24,
+                        scale: 0.96,
+                      }}
+                      animate={{
+                        opacity: 1,
+                        y: 0,
+                        scale: 1,
+                      }}
+                      exit={{
+                        opacity: 0,
+                        y: -16,
+                        scale: 0.96,
+                      }}
+                      transition={{
+                        type: "tween",
+                        duration: 0.4,
+                        ease: [0.22, 1, 0.36, 1],
+                      }}
+                      style={{
+                        willChange: "transform, opacity",
+                        transformOrigin: "center",
+                        transition: "border-color 500ms ease",
+                      }}
+                      onClick={() =>
+                        game.postAttackPhase
+                          ? game.toggleDiscardSelect(card)
+                          : game.toggleAttackSelect(card)
+                      }
+                      onLoad={() => {
+                        setLoadedCards((prev) => {
+                          const next = new Set(prev);
+                          next.add(card.id);
+                          return next;
+                        });
+                      }}
+                      src={card.src}
+                      className={`w-22 md:w-32 lg:w-40 aspect-2.5/3.5 object-cover rounded-lg border shadow-md shrink-0 ${
+                        index > 0 ? "-ml-8" : ""
+                      } ${
+                        isSelected
+                          ? "-translate-y-4 border border-yellow-400"
+                          : ""
+                      } ${
+                        !isLoaded
+                          ? "border-0"
+                          : isPlayable && !isSelected && !game.postAttackPhase
                             ? "border border-green-400"
                             : game.postAttackPhase
                               ? "border border-blue-400"
                               : "border border-red-400"
-                        }`}
-                      />
-                    );
-                  })}
+                      }`}
+                    />
+                  );
+                })}
               </div>
             </div>
           </motion.div>
@@ -593,10 +605,7 @@ export default function GameBoard() {
                   deck, otherwise they go to discard.
                 </p>
 
-                <p>
-                  Joker will discard your hand and then draw max hand
-                  size.
-                </p>
+                <p>Joker will discard your hand and then draw max hand size.</p>
 
                 <p>
                   <strong>Be careful!</strong> If you can't discard you lose the
