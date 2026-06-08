@@ -125,7 +125,6 @@ export function useGame() {
   };
 
   const canUndo = () => {
-    console.log("canUndo history", history);
     return history !== null;
   };
 
@@ -214,6 +213,7 @@ export function useGame() {
     setDiscardSelection([]);
     setPostAttackPhase(false);
     setAttackSelection([]);
+    setHistory(null);
 
     setGameStatus("menu");
   };
