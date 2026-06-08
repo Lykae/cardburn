@@ -125,7 +125,6 @@ export function useGame() {
   };
 
   const canUndo = () => {
-    console.log("canUndo history", history);
     return history !== null;
   };
 
